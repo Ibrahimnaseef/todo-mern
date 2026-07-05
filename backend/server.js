@@ -28,7 +28,13 @@ if(process.env.NODE_ENV==="production"){
     });
 }
 
-app.listen(PORT, () => {  
-    connectDB();
-    console.log("Server started at http://localhost:5000");
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err);
+    process.exit(1);
+  });
